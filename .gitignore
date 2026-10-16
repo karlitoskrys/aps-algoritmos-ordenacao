@@ -1,0 +1,10 @@
+# Executaveis
+*.exe
+
+# Dados grandes
+dados_inpe_corrigidos_500000.csv
+metadados.txt
+
+# Arquivos temporarios
+__pycache__/
+*.pyc
