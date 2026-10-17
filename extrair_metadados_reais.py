@@ -77,7 +77,7 @@ with open(saida, "w", newline="", encoding="utf-8-sig") as arquivo:
 
     escritor = csv.writer(arquivo, delimiter=";")
 
-    # Ordem dos campos definida pelo grupo
+    
     escritor.writerow([
         "area_km",
         "year",
@@ -138,4 +138,4 @@ print("Total de registros:", quantidade)
 print("Arquivo criado:", saida)
 
 if quantidade < 500000:
-    print("ATENCAO: menos de 500 mil registros foram extraidos.")
+    print("menos de 500 mil registros foram extraidos.")

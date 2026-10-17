@@ -1,13 +1,20 @@
 
 #include <iostream>
 #include <vector>
+// Permite criar um vetor que pode aumentar ou diminuir de tamanho durante a execução
 #include <fstream>
+// Permite trabalhar com arquivos .txt, .csv e outros
 #include <sstream>
+// Permite tratar uma sting como um fluxo de dados, facilitando a separação e conversão de informações
 #include <string>
 #include <chrono>
+// Serve para medicao de tempo
 #include <iomanip>
+// Permite controlar a apresentação de números e textos na tela
 #include <algorithm>
+// Oferece funções para ordenar, pesquisar, comparar e maniplar dados
 #include <random>
+// geração de numeros aleatorios
 
 using namespace std;
 
