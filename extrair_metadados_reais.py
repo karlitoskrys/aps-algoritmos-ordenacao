@@ -41,11 +41,12 @@ campos = [campo[0] for campo in dados.fields[1:]]
 print("Campos encontrados:", campos)
 
 necessarios = [
+    "scene_id",
+    "uuid",
     "area_km",
     "year",
     "image_date",
     "satellite",
-    "scene_id",
     "state"
 ]
 
@@ -67,26 +68,25 @@ for nome in necessarios:
 
     mapa[nome] = encontrado
 
-# Cria o CSV corrigido na pasta do script
+# Cria o CSV na pasta do script
 pasta_saida = os.path.dirname(os.path.abspath(__file__))
-saida = os.path.join(pasta_saida, "dados_inpe_corrigidos_500000.csv")
+saida = os.path.join(pasta_saida, "dados_inpe_500000_sla.csv")
 
 quantidade = 0
+ignorados = 0
 
 with open(saida, "w", newline="", encoding="utf-8-sig") as arquivo:
 
     escritor = csv.writer(arquivo, delimiter=";")
 
-    
     escritor.writerow([
+        "scene_id",
+        "uuid",
         "area_km",
         "year",
         "image_date",
         "satellite",
-        "scene_id",
-        "state",
-        "longitude",
-        "latitude"
+        "state"
     ])
 
     # Le os atributos junto com a geometria
@@ -99,6 +99,7 @@ with open(saida, "w", newline="", encoding="utf-8-sig") as arquivo:
         pontos = registro.shape.points
 
         if not pontos:
+            ignorados += 1
             continue
 
         # Primeiro ponto da geometria
@@ -107,24 +108,33 @@ with open(saida, "w", newline="", encoding="utf-8-sig") as arquivo:
 
         # Confere as coordenadas
         if not math.isfinite(longitude) or not math.isfinite(latitude):
+            ignorados += 1
             continue
 
         if not (-180 <= longitude <= 180 and -90 <= latitude <= 90):
+            ignorados += 1
             continue
 
-        if valores.get(mapa["scene_id"]) is None:
+        # Obtem os sete campos solicitados
+        campos_registro = [
+            valores.get(mapa["scene_id"]),
+            valores.get(mapa["uuid"]),
+            valores.get(mapa["area_km"]),
+            valores.get(mapa["year"]),
+            valores.get(mapa["image_date"]),
+            valores.get(mapa["satellite"]),
+            valores.get(mapa["state"])
+        ]
+
+        # Ignora registros com qualquer campo vazio
+        if any(
+            valor is None or str(valor).strip() == ""
+            for valor in campos_registro
+        ):
+            ignorados += 1
             continue
 
-        escritor.writerow([
-            valores.get(mapa["area_km"], ""),
-            valores.get(mapa["year"], ""),
-            valores.get(mapa["image_date"], ""),
-            valores.get(mapa["satellite"], ""),
-            valores.get(mapa["scene_id"], ""),
-            valores.get(mapa["state"], ""),
-            f"{longitude:.6f}",
-            f"{latitude:.6f}"
-        ])
+        escritor.writerow(campos_registro)
 
         quantidade += 1
 
@@ -135,7 +145,8 @@ dados.close()
 
 print("Extracao concluida!")
 print("Total de registros:", quantidade)
+print("Registros ignorados:", ignorados)
 print("Arquivo criado:", saida)
 
 if quantidade < 500000:
-    print("menos de 500 mil registros foram extraidos.")
+    print("Menos de 500 mil registros validos foram encontrados.")

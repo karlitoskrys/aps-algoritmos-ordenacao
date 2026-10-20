@@ -30,14 +30,13 @@ struct DadoAleatorio {
 
 // Dados reais do INPE
 struct DadoReal {
-    string area;
-    string ano;
-    string data;
-    string satelite;
     int scene_id;
-    string estado;
-    string longitude;
-    string latitude;
+    string uuid;
+    string area_km;
+    string year;
+    string image_date;
+    string satellite;
+    string state;
 };
 
 // Le os dados aleatorios
@@ -67,10 +66,10 @@ vector<DadoAleatorio> lerAleatorios() {
 // Le os dados reais do INPE
 vector<DadoReal> lerReais() {
     vector<DadoReal> dados;
-    ifstream arquivo("dados_inpe_corrigidos_500000.csv");
+    ifstream arquivo("dados_inpe_500000_sla.csv");
 
     if (!arquivo.is_open()) {
-        cout << "Erro ao abrir dados_inpe_corrigidos_500000.csv" << endl;
+        cout << "Erro ao abrir dados_inpe_500000_sla.csv" << endl;
         return dados;
     }
 
@@ -84,14 +83,13 @@ vector<DadoReal> lerReais() {
         DadoReal registro;
         string identificador;
 
-        getline(ss, registro.area, ';');
-        getline(ss, registro.ano, ';');
-        getline(ss, registro.data, ';');
-        getline(ss, registro.satelite, ';');
         getline(ss, identificador, ';');
-        getline(ss, registro.estado, ';');
-        getline(ss, registro.longitude, ';');
-        getline(ss, registro.latitude, ';');
+        getline(ss, registro.uuid, ';');
+        getline(ss, registro.area_km, ';');
+        getline(ss, registro.year, ';');
+        getline(ss, registro.image_date, ';');
+        getline(ss, registro.satellite, ';');
+        getline(ss, registro.state, ';');
 
         // Converte o scene_id para numero
         try {
@@ -179,14 +177,13 @@ void mostrarAleatorio(const DadoAleatorio& d) {
 
 // Mostra um registro real
 void mostrarReal(const DadoReal& d) {
-    cout << d.area << " ; "
-         << d.ano << " ; "
-         << d.data << " ; "
-         << d.satelite << " ; "
-         << d.scene_id << " ; "
-         << d.estado << " ; "
-         << d.longitude << " ; "
-         << d.latitude << endl;
+    cout << d.scene_id << " ; "
+         << d.uuid << " ; "
+         << d.area_km << " ; "
+         << d.year << " ; "
+         << d.image_date << " ; "
+         << d.satellite << " ; "
+         << d.state << endl;
 }
 
 // Prepara os dados e mede o tempo do Selection Sort

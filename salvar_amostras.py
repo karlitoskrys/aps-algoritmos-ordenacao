@@ -7,7 +7,7 @@ QUANTIDADE = 500000
 def ler_dados_reais():
     dados = []
 
-    with open("dados_inpe_corrigidos_500000.csv",
+    with open("dados_inpe_500000_sla.csv",
               "r", encoding="utf-8-sig", newline="") as arquivo:
 
         leitor = csv.DictReader(arquivo, delimiter=";")
@@ -103,8 +103,8 @@ salvar_amostras(
     reais,
     "scene_id",
     [
-        "area_km", "year", "image_date", "satellite",
-        "scene_id", "state", "longitude", "latitude"
+        "scene_id", "uuid", "area_km", "year",
+        "image_date", "satellite", "state"
     ]
 )
 
