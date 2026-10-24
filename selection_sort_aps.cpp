@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <vector>
 // Permite criar um vetor que pode aumentar ou diminuir de tamanho durante a execução
@@ -117,9 +116,6 @@ vector<DadoReal> lerReais()
 
         dados.push_back(registro);
     }
-
-    cout << "Registros reais lidos: "
-         << dados.size() << endl;
 
     if (ignorados > 0)
     {
@@ -390,6 +386,9 @@ int main()
         }
 
         dados.resize(quantidade);
+
+        cout << "Registros reais lidos: "
+             << dados.size() << endl;
 
         executarTeste(
             dados,
